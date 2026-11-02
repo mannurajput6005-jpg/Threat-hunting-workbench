@@ -1,0 +1,6 @@
+indicator_type,indicator_value,source,confidence,description
+ip,198.51.100.23,lab-sample-feed,high,Synthetic C2 address (RFC 5737 documentation range) used by the sample data
+ip,203.0.113.50,lab-sample-feed,medium,Synthetic brute-force source (RFC 5737 documentation range)
+domain,malicious-example.test,lab-sample-feed,high,Synthetic malicious domain (.test is reserved and never resolves)
+url,http://malicious-example.test/payload.ps1,lab-sample-feed,high,Synthetic payload URL used by the sample data
+hash,275a021bbfb6489e54d471899f7db9d1663fc695ec2fe2a2c4538aabf651fd0f,eicar-test-file,low,SHA-256 of the harmless EICAR antivirus test file

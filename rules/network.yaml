@@ -1,0 +1,55 @@
+rules:
+  - id: NET-001
+    name: Connection to uncommon port
+    description: Outbound connection to a port often used by remote-access tools or reverse shells.
+    severity: medium
+    type: match
+    mitre: [T1571]
+    match:
+      - {field: event_category, op: equals, value: network_connection}
+      - {field: destination_port, op: in, value: [4444, 1337, 31337, 6667, 8888, 9001]}
+    caution: Some legitimate software uses these ports. Check the process and destination.
+
+  - id: NET-002
+    name: Port scan pattern
+    description: One source touched many different destination ports in a short window.
+    severity: medium
+    type: threshold
+    mitre: [T1046]
+    match:
+      - {field: event_category, op: equals, value: network_connection}
+    threshold: {count: 15, window_seconds: 60, group_by: [source_ip, destination_ip], distinct_field: destination_port}
+    caution: Vulnerability scanners and monitoring tools produce the same pattern.
+
+  - id: NET-003
+    name: Possible lateral movement over remote-service ports
+    description: One source connected to several different hosts on SMB, RDP or WinRM ports.
+    severity: high
+    type: threshold
+    mitre: [T1021.002, T1021.001, T1021.006]
+    match:
+      - {field: event_category, op: equals, value: network_connection}
+      - {field: destination_port, op: in, value: [445, 3389, 5985, 5986]}
+    threshold: {count: 3, window_seconds: 300, group_by: [source_ip], distinct_field: destination_ip}
+    caution: Needs corroboration - file servers, jump hosts and admin tools behave similarly.
+
+  - id: NET-004
+    name: Suricata signature alert (imported)
+    description: An IDS signature fired in the imported Suricata data.
+    severity: medium
+    type: match
+    mitre: []
+    match:
+      - {field: event_category, op: equals, value: ids_alert}
+    caution: IDS alerts are leads, not confirmed incidents.
+
+  - id: NET-005
+    name: Script interpreter making a network connection
+    description: PowerShell, cmd or a script host initiated a network connection.
+    severity: medium
+    type: match
+    mitre: [T1071.001]
+    match:
+      - {field: event_category, op: equals, value: network_connection}
+      - {field: process_name, op: in, value: [powershell.exe, pwsh.exe, cmd.exe, wscript.exe, cscript.exe, mshta.exe]}
+    caution: Updates and package managers may also do this. Check the destination.

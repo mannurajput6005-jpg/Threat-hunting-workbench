@@ -1,0 +1,46 @@
+# Authentication rules. Fields refer to the normalized event schema.
+rules:
+  - id: AUTH-001
+    name: Repeated failed logins from one source
+    description: Several failed authentications from the same source IP within a short window.
+    severity: medium
+    type: threshold
+    mitre: [T1110]
+    match:
+      - {field: event_category, op: equals, value: authentication}
+      - {field: outcome, op: equals, value: failure}
+    threshold: {count: 5, window_seconds: 300, group_by: [source_ip]}
+    caution: May be caused by mistyped passwords, expired credentials or service accounts.
+
+  - id: AUTH-002
+    name: Password spraying pattern
+    description: One source failed to authenticate as many different accounts in a short window.
+    severity: high
+    type: threshold
+    mitre: [T1110.003]
+    match:
+      - {field: event_category, op: equals, value: authentication}
+      - {field: outcome, op: equals, value: failure}
+    threshold: {count: 5, window_seconds: 600, group_by: [source_ip], distinct_field: username}
+    caution: Shared NAT gateways or misconfigured applications can look similar.
+
+  - id: AUTH-003
+    name: Windows event log cleared
+    description: The Windows Security or System event log was cleared.
+    severity: high
+    type: match
+    mitre: [T1070.001]
+    match:
+      - {field: event_category, op: equals, value: log_cleared}
+    caution: Administrators clear logs during maintenance; verify the change record.
+
+  - id: AUTH-004
+    name: Local account created
+    description: A new user account was created on a host.
+    severity: medium
+    type: match
+    mitre: [T1136.001]
+    match:
+      - {field: event_category, op: equals, value: account_management}
+      - {field: event_action, op: equals, value: account_created}
+    caution: Expected during onboarding or provisioning.

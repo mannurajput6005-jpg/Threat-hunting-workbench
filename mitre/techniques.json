@@ -1,0 +1,184 @@
+{
+  "_note": "Short paraphrased descriptions for the techniques used by the bundled rules. Authoritative definitions: https://attack.mitre.org/. Mappings indicate which behaviour a rule relates to; they are not proof of attacker activity.",
+  "techniques": {
+    "T1003.001": {
+      "name": "OS Credential Dumping: LSASS Memory",
+      "tactics": [
+        "Credential Access"
+      ],
+      "description": "Adversaries may read credential material from the memory of the LSASS process.",
+      "url": "https://attack.mitre.org/techniques/T1003/001/"
+    },
+    "T1021.001": {
+      "name": "Remote Services: Remote Desktop Protocol",
+      "tactics": [
+        "Lateral Movement"
+      ],
+      "description": "Adversaries may use valid accounts to log in to remote systems over RDP.",
+      "url": "https://attack.mitre.org/techniques/T1021/001/"
+    },
+    "T1021.002": {
+      "name": "Remote Services: SMB/Windows Admin Shares",
+      "tactics": [
+        "Lateral Movement"
+      ],
+      "description": "Adversaries may use SMB and admin shares to move between systems.",
+      "url": "https://attack.mitre.org/techniques/T1021/002/"
+    },
+    "T1021.006": {
+      "name": "Remote Services: Windows Remote Management",
+      "tactics": [
+        "Lateral Movement"
+      ],
+      "description": "Adversaries may use WinRM to interact with and run commands on remote systems.",
+      "url": "https://attack.mitre.org/techniques/T1021/006/"
+    },
+    "T1027": {
+      "name": "Obfuscated Files or Information",
+      "tactics": [
+        "Defense Evasion"
+      ],
+      "description": "Adversaries may obfuscate content to make detection or analysis harder.",
+      "url": "https://attack.mitre.org/techniques/T1027/"
+    },
+    "T1046": {
+      "name": "Network Service Discovery",
+      "tactics": [
+        "Discovery"
+      ],
+      "description": "Adversaries may scan hosts for open ports and running services.",
+      "url": "https://attack.mitre.org/techniques/T1046/"
+    },
+    "T1053.005": {
+      "name": "Scheduled Task/Job: Scheduled Task",
+      "tactics": [
+        "Execution",
+        "Persistence",
+        "Privilege Escalation"
+      ],
+      "description": "Adversaries may abuse task scheduling to run code at a set time or at startup.",
+      "url": "https://attack.mitre.org/techniques/T1053/005/"
+    },
+    "T1059": {
+      "name": "Command and Scripting Interpreter",
+      "tactics": [
+        "Execution"
+      ],
+      "description": "Adversaries may abuse command and script interpreters to execute commands.",
+      "url": "https://attack.mitre.org/techniques/T1059/"
+    },
+    "T1059.001": {
+      "name": "Command and Scripting Interpreter: PowerShell",
+      "tactics": [
+        "Execution"
+      ],
+      "description": "Adversaries may abuse PowerShell to execute commands and scripts.",
+      "url": "https://attack.mitre.org/techniques/T1059/001/"
+    },
+    "T1070.001": {
+      "name": "Indicator Removal: Clear Windows Event Logs",
+      "tactics": [
+        "Defense Evasion"
+      ],
+      "description": "Adversaries may clear Windows event logs to hide evidence of intrusion.",
+      "url": "https://attack.mitre.org/techniques/T1070/001/"
+    },
+    "T1071.001": {
+      "name": "Application Layer Protocol: Web Protocols",
+      "tactics": [
+        "Command and Control"
+      ],
+      "description": "Adversaries may hide command-and-control traffic inside web protocol traffic.",
+      "url": "https://attack.mitre.org/techniques/T1071/001/"
+    },
+    "T1105": {
+      "name": "Ingress Tool Transfer",
+      "tactics": [
+        "Command and Control"
+      ],
+      "description": "Adversaries may transfer tools or files from an external system into the environment.",
+      "url": "https://attack.mitre.org/techniques/T1105/"
+    },
+    "T1110": {
+      "name": "Brute Force",
+      "tactics": [
+        "Credential Access"
+      ],
+      "description": "Adversaries may guess passwords repeatedly when credentials are unknown.",
+      "url": "https://attack.mitre.org/techniques/T1110/"
+    },
+    "T1110.003": {
+      "name": "Brute Force: Password Spraying",
+      "tactics": [
+        "Credential Access"
+      ],
+      "description": "Adversaries may try one or a few common passwords against many accounts.",
+      "url": "https://attack.mitre.org/techniques/T1110/003/"
+    },
+    "T1136.001": {
+      "name": "Create Account: Local Account",
+      "tactics": [
+        "Persistence"
+      ],
+      "description": "Adversaries may create a local account to maintain access.",
+      "url": "https://attack.mitre.org/techniques/T1136/001/"
+    },
+    "T1204.002": {
+      "name": "User Execution: Malicious File",
+      "tactics": [
+        "Execution"
+      ],
+      "description": "Adversaries may rely on a user opening a malicious file to gain execution.",
+      "url": "https://attack.mitre.org/techniques/T1204/002/"
+    },
+    "T1218.005": {
+      "name": "System Binary Proxy Execution: Mshta",
+      "tactics": [
+        "Defense Evasion"
+      ],
+      "description": "Adversaries may abuse mshta.exe to proxy execution of malicious content.",
+      "url": "https://attack.mitre.org/techniques/T1218/005/"
+    },
+    "T1218.010": {
+      "name": "System Binary Proxy Execution: Regsvr32",
+      "tactics": [
+        "Defense Evasion"
+      ],
+      "description": "Adversaries may abuse regsvr32.exe to proxy execution of malicious code.",
+      "url": "https://attack.mitre.org/techniques/T1218/010/"
+    },
+    "T1218.011": {
+      "name": "System Binary Proxy Execution: Rundll32",
+      "tactics": [
+        "Defense Evasion"
+      ],
+      "description": "Adversaries may abuse rundll32.exe to proxy execution of malicious code.",
+      "url": "https://attack.mitre.org/techniques/T1218/011/"
+    },
+    "T1490": {
+      "name": "Inhibit System Recovery",
+      "tactics": [
+        "Impact"
+      ],
+      "description": "Adversaries may delete or disable recovery features such as shadow copies.",
+      "url": "https://attack.mitre.org/techniques/T1490/"
+    },
+    "T1547.001": {
+      "name": "Boot or Logon Autostart Execution: Registry Run Keys / Startup Folder",
+      "tactics": [
+        "Persistence",
+        "Privilege Escalation"
+      ],
+      "description": "Adversaries may add programs to Run keys or startup folders to run at logon.",
+      "url": "https://attack.mitre.org/techniques/T1547/001/"
+    },
+    "T1571": {
+      "name": "Non-Standard Port",
+      "tactics": [
+        "Command and Control"
+      ],
+      "description": "Adversaries may use a protocol on an unexpected port to avoid simple filtering.",
+      "url": "https://attack.mitre.org/techniques/T1571/"
+    }
+  }
+}

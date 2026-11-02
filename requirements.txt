@@ -1,0 +1,10 @@
+streamlit>=1.50,<2
+pandas>=2.0
+pydantic>=2.5,<3
+plotly>=5.18
+PyYAML>=6.0
+bcrypt>=4.1
+defusedxml>=0.7.1
+python-dateutil>=2.8.2
+requests>=2.31
+reportlab>=4.0

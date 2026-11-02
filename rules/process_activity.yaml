@@ -1,0 +1,74 @@
+rules:
+  - id: PROC-001
+    name: Execution from temporary or user-writable directory
+    description: A program was started from a temp, downloads or public directory.
+    severity: medium
+    type: match
+    mitre: [T1204.002]
+    match:
+      - {field: event_category, op: equals, value: process_creation}
+      - {field: process_path, op: regex, value: '\\(temp|downloads|users\\public|appdata\\local\\temp)\\[^\\]+\.(exe|dll|scr|bat|cmd|ps1|vbs|js)$'}
+    caution: Location alone does not establish maliciousness (installers often run from Downloads).
+
+  - id: PROC-002
+    name: Office application spawning a script interpreter
+    description: A Microsoft Office process started a shell, script host or proxy-execution binary.
+    severity: high
+    type: match
+    mitre: [T1204.002, T1059]
+    match:
+      - {field: event_category, op: equals, value: process_creation}
+      - {field: parent_process, op: in, value: [winword.exe, excel.exe, powerpnt.exe, outlook.exe]}
+      - {field: process_name, op: in, value: [cmd.exe, powershell.exe, pwsh.exe, wscript.exe, cscript.exe, mshta.exe, rundll32.exe, regsvr32.exe]}
+    caution: Some macros and add-ins legitimately launch helpers; confirm with the document owner.
+
+  - id: PROC-003
+    name: Proxy execution through a signed system binary
+    description: mshta, regsvr32 or rundll32 invoked with a URL or script handler.
+    severity: high
+    type: match
+    mitre: [T1218.005, T1218.010, T1218.011]
+    match:
+      - {field: process_name, op: in, value: [mshta.exe, regsvr32.exe, rundll32.exe]}
+      - {field: command_line, op: regex, value: 'https?://|javascript:|vbscript:|scrobj\.dll'}
+    caution: Rare in normal use, but verify the command line.
+
+  - id: PROC-004
+    name: Shadow copy / recovery deletion
+    description: Command line that deletes volume shadow copies or disables recovery.
+    severity: critical
+    type: match
+    mitre: [T1490]
+    match:
+      - {field: command_line, op: regex, value: 'vssadmin(\.exe)?\s+delete\s+shadows|wmic\s+shadowcopy\s+delete|bcdedit.*recoveryenabled\s+no'}
+    caution: Backup software can manage shadow copies; check whether this was a planned change.
+
+  - id: PROC-005
+    name: Credential dumping command line
+    description: Command line associated with dumping LSASS memory or credential material.
+    severity: critical
+    type: match
+    mitre: [T1003.001]
+    match:
+      - {field: command_line, op: regex, value: 'procdump.*lsass|comsvcs\.dll.*minidump|sekurlsa|lsass\.dmp'}
+    caution: Security tooling can reference these strings; confirm the executing user and purpose.
+
+  - id: PROC-006
+    name: Persistence via scheduled task or Run key
+    description: Command line that creates a scheduled task or a registry Run-key entry.
+    severity: medium
+    type: match
+    mitre: [T1053.005, T1547.001]
+    match:
+      - {field: command_line, op: regex, value: 'schtasks(\.exe)?\s+/create|reg(\.exe)?\s+add\s+.*\\currentversion\\run'}
+    caution: Installers and admin scripts create tasks; check the task action.
+
+  - id: PROC-007
+    name: Local user added from command line
+    description: net user ... /add executed.
+    severity: high
+    type: match
+    mitre: [T1136.001]
+    match:
+      - {field: command_line, op: regex, value: '\bnet1?(\.exe)?\s+user\s+.*\s/add\b'}
+    caution: Provisioning scripts do this legitimately.
